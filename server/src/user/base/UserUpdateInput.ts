@@ -11,9 +11,19 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, IsJSON } from "class-validator";
+import {
+  IsString,
+  IsOptional,
+  IsJSON,
+  ValidateNested,
+  IsEnum,
+} from "class-validator";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { OrganizationWhereUniqueInput } from "../../organization/base/OrganizationWhereUniqueInput";
+import { Type } from "class-transformer";
+import { ProductUpdateManyWithoutUsersInput } from "./ProductUpdateManyWithoutUsersInput";
+import { EnumUserInterests } from "./EnumUserInterests";
 @InputType()
 class UserUpdateInput {
   @ApiProperty({
@@ -69,5 +79,43 @@ class UserUpdateInput {
     nullable: true,
   })
   roles?: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => OrganizationWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => OrganizationWhereUniqueInput)
+  @IsOptional()
+  @Field(() => OrganizationWhereUniqueInput, {
+    nullable: true,
+  })
+  organization?: OrganizationWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ProductUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => ProductUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => ProductUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  products?: ProductUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumUserInterests,
+    isArray: true,
+  })
+  @IsEnum(EnumUserInterests, {
+    each: true,
+  })
+  @IsOptional()
+  @Field(() => [EnumUserInterests], {
+    nullable: true,
+  })
+  interests?: Array<"Programming" | "Design">;
 }
 export { UserUpdateInput };

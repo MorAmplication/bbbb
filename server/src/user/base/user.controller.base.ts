@@ -27,6 +27,9 @@ import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserUpdateInput } from "./UserUpdateInput";
 import { User } from "./User";
+import { ProductFindManyArgs } from "../../product/base/ProductFindManyArgs";
+import { Product } from "../../product/base/Product";
+import { ProductWhereUniqueInput } from "../../product/base/ProductWhereUniqueInput";
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class UserControllerBase {
@@ -46,7 +49,15 @@ export class UserControllerBase {
   @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
   async create(@common.Body() data: UserCreateInput): Promise<User> {
     return await this.service.create({
-      data: data,
+      data: {
+        ...data,
+
+        organization: data.organization
+          ? {
+              connect: data.organization,
+            }
+          : undefined,
+      },
       select: {
         id: true,
         createdAt: true,
@@ -55,6 +66,14 @@ export class UserControllerBase {
         lastName: true,
         username: true,
         roles: true,
+
+        organization: {
+          select: {
+            id: true,
+          },
+        },
+
+        interests: true,
       },
     });
   }
@@ -81,6 +100,14 @@ export class UserControllerBase {
         lastName: true,
         username: true,
         roles: true,
+
+        organization: {
+          select: {
+            id: true,
+          },
+        },
+
+        interests: true,
       },
     });
   }
@@ -108,6 +135,14 @@ export class UserControllerBase {
         lastName: true,
         username: true,
         roles: true,
+
+        organization: {
+          select: {
+            id: true,
+          },
+        },
+
+        interests: true,
       },
     });
     if (result === null) {
@@ -135,7 +170,15 @@ export class UserControllerBase {
     try {
       return await this.service.update({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          organization: data.organization
+            ? {
+                connect: data.organization,
+              }
+            : undefined,
+        },
         select: {
           id: true,
           createdAt: true,
@@ -144,6 +187,14 @@ export class UserControllerBase {
           lastName: true,
           username: true,
           roles: true,
+
+          organization: {
+            select: {
+              id: true,
+            },
+          },
+
+          interests: true,
         },
       });
     } catch (error) {
@@ -179,6 +230,14 @@ export class UserControllerBase {
           lastName: true,
           username: true,
           roles: true,
+
+          organization: {
+            select: {
+              id: true,
+            },
+          },
+
+          interests: true,
         },
       });
     } catch (error) {
@@ -189,5 +248,107 @@ export class UserControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @nestAccessControl.UseRoles({
+    resource: "Product",
+    action: "read",
+    possession: "any",
+  })
+  @common.Get("/:id/products")
+  @ApiNestedQuery(ProductFindManyArgs)
+  async findManyProducts(
+    @common.Req() request: Request,
+    @common.Param() params: UserWhereUniqueInput
+  ): Promise<Product[]> {
+    const query = plainToClass(ProductFindManyArgs, request.query);
+    const results = await this.service.findProducts(params.id, {
+      ...query,
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        name: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  @common.Post("/:id/products")
+  async connectProducts(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: ProductWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      products: {
+        connect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  @common.Patch("/:id/products")
+  async updateProducts(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: ProductWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      products: {
+        set: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  @common.Delete("/:id/products")
+  async disconnectProducts(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: ProductWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      products: {
+        disconnect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }
