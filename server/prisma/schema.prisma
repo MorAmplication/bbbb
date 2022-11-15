@@ -1,5 +1,5 @@
-datasource mysql {
-  provider = "mysql"
+datasource postgres {
+  provider = "postgresql"
   url      = env("DB_URL")
 }
 
