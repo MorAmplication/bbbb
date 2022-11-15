@@ -51,6 +51,7 @@ export class BbbbControllerBase {
         id: true,
         createdAt: true,
         updatedAt: true,
+        dwwffw: true,
       },
     });
   }
@@ -73,6 +74,7 @@ export class BbbbControllerBase {
         id: true,
         createdAt: true,
         updatedAt: true,
+        dwwffw: true,
       },
     });
   }
@@ -96,6 +98,7 @@ export class BbbbControllerBase {
         id: true,
         createdAt: true,
         updatedAt: true,
+        dwwffw: true,
       },
     });
     if (result === null) {
@@ -128,6 +131,7 @@ export class BbbbControllerBase {
           id: true,
           createdAt: true,
           updatedAt: true,
+          dwwffw: true,
         },
       });
     } catch (error) {
@@ -159,6 +163,7 @@ export class BbbbControllerBase {
           id: true,
           createdAt: true,
           updatedAt: true,
+          dwwffw: true,
         },
       });
     } catch (error) {
