@@ -44,6 +44,15 @@ class BbbbOrderByInput {
     nullable: true,
   })
   updatedAt?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  dwwffw?: SortOrder;
 }
 
 export { BbbbOrderByInput };

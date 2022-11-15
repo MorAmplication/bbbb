@@ -18,6 +18,9 @@ import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { isRecordNotFoundError } from "../../prisma.util";
 import { MetaQueryPayload } from "../../util/MetaQueryPayload";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
+import { CreateBbbbArgs } from "./CreateBbbbArgs";
+import { UpdateBbbbArgs } from "./UpdateBbbbArgs";
 import { DeleteBbbbArgs } from "./DeleteBbbbArgs";
 import { BbbbFindManyArgs } from "./BbbbFindManyArgs";
 import { BbbbFindUniqueArgs } from "./BbbbFindUniqueArgs";
@@ -75,6 +78,43 @@ export class BbbbResolverBase {
       return null;
     }
     return result;
+  }
+
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Bbbb)
+  @nestAccessControl.UseRoles({
+    resource: "Bbbb",
+    action: "create",
+    possession: "any",
+  })
+  async createBbbb(@graphql.Args() args: CreateBbbbArgs): Promise<Bbbb> {
+    return await this.service.create({
+      ...args,
+      data: args.data,
+    });
+  }
+
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Bbbb)
+  @nestAccessControl.UseRoles({
+    resource: "Bbbb",
+    action: "update",
+    possession: "any",
+  })
+  async updateBbbb(@graphql.Args() args: UpdateBbbbArgs): Promise<Bbbb | null> {
+    try {
+      return await this.service.update({
+        ...args,
+        data: args.data,
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new apollo.ApolloError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
   }
 
   @graphql.Mutation(() => Bbbb)

@@ -4,4 +4,5 @@ export type BbbbOrderByInput = {
   id?: SortOrder;
   createdAt?: SortOrder;
   updatedAt?: SortOrder;
+  dwwffw?: SortOrder;
 };

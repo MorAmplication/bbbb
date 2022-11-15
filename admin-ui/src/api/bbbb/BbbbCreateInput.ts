@@ -1,1 +1,3 @@
-export type BbbbCreateInput = {};
+export type BbbbCreateInput = {
+  dwwffw?: string | null;
+};
