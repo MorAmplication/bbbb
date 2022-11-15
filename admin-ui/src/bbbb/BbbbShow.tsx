@@ -14,6 +14,7 @@ export const BbbbShow = (props: ShowProps): React.ReactElement => {
         <TextField label="ID" source="id" />
         <DateField source="createdAt" label="Created At" />
         <DateField source="updatedAt" label="Updated At" />
+        <TextField label="dwwffw" source="dwwffw" />
       </SimpleShowLayout>
     </Show>
   );
