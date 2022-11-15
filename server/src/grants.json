@@ -2,6 +2,12 @@
   {
     "role": "user",
     "resource": "User",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "User",
     "action": "create:any",
     "attributes": "*"
   },
@@ -9,12 +15,6 @@
     "role": "user",
     "resource": "User",
     "action": "update:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "User",
-    "action": "read:own",
     "attributes": "*"
   },
   {
@@ -31,61 +31,61 @@
   },
   {
     "role": "user",
-    "resource": "Bbbb",
+    "resource": "Organization",
     "action": "read:own",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Bbbb",
+    "resource": "Organization",
     "action": "create:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Bbbb",
+    "resource": "Organization",
     "action": "update:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Bbbb",
+    "resource": "Organization",
     "action": "delete:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Bbbb",
+    "resource": "Organization",
     "action": "read:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Newblabla",
+    "resource": "Product",
     "action": "read:own",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Newblabla",
+    "resource": "Product",
     "action": "create:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Newblabla",
+    "resource": "Product",
     "action": "update:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Newblabla",
+    "resource": "Product",
     "action": "delete:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "Newblabla",
+    "resource": "Product",
     "action": "read:any",
     "attributes": "*"
   }

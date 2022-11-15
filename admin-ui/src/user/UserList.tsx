@@ -1,6 +1,14 @@
 import * as React from "react";
-import { List, Datagrid, ListProps, TextField, DateField } from "react-admin";
+import {
+  List,
+  Datagrid,
+  ListProps,
+  TextField,
+  DateField,
+  ReferenceField,
+} from "react-admin";
 import Pagination from "../Components/Pagination";
+import { ORGANIZATION_TITLE_FIELD } from "../organization/OrganizationTitle";
 
 export const UserList = (props: ListProps): React.ReactElement => {
   return (
@@ -19,6 +27,14 @@ export const UserList = (props: ListProps): React.ReactElement => {
         <TextField label="Last Name" source="lastName" />
         <TextField label="Username" source="username" />
         <TextField label="Roles" source="roles" />
+        <ReferenceField
+          label="Organization"
+          source="organization.id"
+          reference="Organization"
+        >
+          <TextField source={ORGANIZATION_TITLE_FIELD} />
+        </ReferenceField>
+        <TextField label="Interests" source="interests" />
       </Datagrid>
     </List>
   );

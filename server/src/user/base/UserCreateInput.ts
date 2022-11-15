@@ -11,9 +11,19 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, IsJSON } from "class-validator";
+import {
+  IsString,
+  IsOptional,
+  IsJSON,
+  ValidateNested,
+  IsEnum,
+} from "class-validator";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { OrganizationWhereUniqueInput } from "../../organization/base/OrganizationWhereUniqueInput";
+import { Type } from "class-transformer";
+import { ProductCreateNestedManyWithoutUsersInput } from "./ProductCreateNestedManyWithoutUsersInput";
+import { EnumUserInterests } from "./EnumUserInterests";
 @InputType()
 class UserCreateInput {
   @ApiProperty({
@@ -60,5 +70,43 @@ class UserCreateInput {
   @IsJSON()
   @Field(() => GraphQLJSON)
   roles!: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => OrganizationWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => OrganizationWhereUniqueInput)
+  @IsOptional()
+  @Field(() => OrganizationWhereUniqueInput, {
+    nullable: true,
+  })
+  organization?: OrganizationWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ProductCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => ProductCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => ProductCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  products?: ProductCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumUserInterests,
+    isArray: true,
+  })
+  @IsEnum(EnumUserInterests, {
+    each: true,
+  })
+  @IsOptional()
+  @Field(() => [EnumUserInterests], {
+    nullable: true,
+  })
+  interests?: Array<"Programming" | "Design">;
 }
 export { UserCreateInput };

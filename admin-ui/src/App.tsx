@@ -9,14 +9,14 @@ import { UserList } from "./user/UserList";
 import { UserCreate } from "./user/UserCreate";
 import { UserEdit } from "./user/UserEdit";
 import { UserShow } from "./user/UserShow";
-import { BbbbList } from "./bbbb/BbbbList";
-import { BbbbCreate } from "./bbbb/BbbbCreate";
-import { BbbbEdit } from "./bbbb/BbbbEdit";
-import { BbbbShow } from "./bbbb/BbbbShow";
-import { NewblablaList } from "./newblabla/NewblablaList";
-import { NewblablaCreate } from "./newblabla/NewblablaCreate";
-import { NewblablaEdit } from "./newblabla/NewblablaEdit";
-import { NewblablaShow } from "./newblabla/NewblablaShow";
+import { OrganizationList } from "./organization/OrganizationList";
+import { OrganizationCreate } from "./organization/OrganizationCreate";
+import { OrganizationEdit } from "./organization/OrganizationEdit";
+import { OrganizationShow } from "./organization/OrganizationShow";
+import { ProductList } from "./product/ProductList";
+import { ProductCreate } from "./product/ProductCreate";
+import { ProductEdit } from "./product/ProductEdit";
+import { ProductShow } from "./product/ProductShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -51,18 +51,18 @@ const App = (): React.ReactElement => {
           show={UserShow}
         />
         <Resource
-          name="Bbbb"
-          list={BbbbList}
-          edit={BbbbEdit}
-          create={BbbbCreate}
-          show={BbbbShow}
+          name="Organization"
+          list={OrganizationList}
+          edit={OrganizationEdit}
+          create={OrganizationCreate}
+          show={OrganizationShow}
         />
         <Resource
-          name="Newblabla"
-          list={NewblablaList}
-          edit={NewblablaEdit}
-          create={NewblablaCreate}
-          show={NewblablaShow}
+          name="Product"
+          list={ProductList}
+          edit={ProductEdit}
+          create={ProductCreate}
+          show={ProductShow}
         />
       </Admin>
     </div>

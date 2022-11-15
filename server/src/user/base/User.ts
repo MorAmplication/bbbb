@@ -11,10 +11,20 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsDate, IsOptional, IsJSON } from "class-validator";
+import {
+  IsString,
+  IsDate,
+  IsOptional,
+  IsJSON,
+  ValidateNested,
+  IsEnum,
+} from "class-validator";
 import { Type } from "class-transformer";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
+import { Organization } from "../../organization/base/Organization";
+import { Product } from "../../product/base/Product";
+import { EnumUserInterests } from "./EnumUserInterests";
 @ObjectType()
 class User {
   @ApiProperty({
@@ -77,5 +87,37 @@ class User {
   @IsJSON()
   @Field(() => GraphQLJSON)
   roles!: JsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => Organization,
+  })
+  @ValidateNested()
+  @Type(() => Organization)
+  @IsOptional()
+  organization?: Organization | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Product],
+  })
+  @ValidateNested()
+  @Type(() => Product)
+  @IsOptional()
+  products?: Array<Product>;
+
+  @ApiProperty({
+    required: false,
+    enum: EnumUserInterests,
+    isArray: true,
+  })
+  @IsEnum(EnumUserInterests, {
+    each: true,
+  })
+  @IsOptional()
+  @Field(() => [EnumUserInterests], {
+    nullable: true,
+  })
+  interests?: Array<"Programming" | "Design">;
 }
 export { User };
